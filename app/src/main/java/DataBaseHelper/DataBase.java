@@ -17,7 +17,7 @@ public class DataBase  {
     public DataBase(Context context) {
         openHelper= new DataBaseUser(context);
     }
-    public SQLiteDatabase open()throws SQLException{
+    public SQLiteDatabase open(){
 
         dataBaseUser=openHelper.getWritableDatabase();
         return dataBaseUser;

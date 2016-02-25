@@ -1,8 +1,11 @@
 package com.edibca.databasemanagement;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,19 +15,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import BL.BusinessLogic;
 import DTO.DtoUser;
 import adapters.ListAdapter;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private ListAdapter listAdapter;
-    private List<DtoUser>dataList;
+    private ArrayList<DtoUser>dataList;
     private ListView listView;
+    private DtoUser dtoUser;
+    private BusinessLogic businessLogic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +46,10 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Intent intent=new Intent(getApplicationContext(),UserInsert.class);
+                startActivity(intent);
             }
         });
 
@@ -50,14 +61,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        loadActivity();
+        try {
+            loadActivity();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void  loadActivity(){
+    public void  loadActivity() throws SQLException {
 
         dataList= new ArrayList<>();
 
-        for(int i=0;i<10;i++){
+      /*  for(int i=0;i<10;i++){
 
             DtoUser  dtoUser=new DtoUser();
             dtoUser.setsName("Diego :" + i);
@@ -70,7 +85,22 @@ public class MainActivity extends AppCompatActivity
         }
         listView=(ListView)findViewById(R.id.listView);
         listAdapter =new ListAdapter(this,dataList);
-        listView.setAdapter(listAdapter);
+        listView.setAdapter(listAdapter);*/
+        searchUser(0);
+
+    }
+    public void  searchUser(int iTypeSearch) throws SQLException {
+        dtoUser=new DtoUser();
+        businessLogic=new BusinessLogic(this);
+
+        dataList=businessLogic.consultUserBl(dtoUser,iTypeSearch);
+
+        for(int i=0;i<dataList.size();i++){
+            Log.w("List", String.valueOf(dataList.get(i).getsUri()));
+        }
+
+
+
 
     }
 
@@ -130,4 +160,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void onClick(View v) {
+
+
+
+
+    }
+
 }

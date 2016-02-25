@@ -10,6 +10,39 @@ public class DtoUser {
     private String sTelephone;
     private String sPhoto;
     private int iImgUrl;
+    private String sUri;
+    private int iID;
+
+    public DtoUser() {
+    }
+
+    public DtoUser(int iID,String sName, String sLast_Name, String sTelephone , String sMail, String sUri) {
+        this.iID = iID;
+        this.sName = sName;
+        this.sLast_Name = sLast_Name;
+        this.sTelephone = sTelephone;
+        this.sMail = sMail;
+        this.sUri = sUri;
+
+    }
+
+
+
+    public int getiID() {
+        return iID;
+    }
+
+    public void setiID(int iID) {
+        this.iID = iID;
+    }
+
+    public String getsUri() {
+        return sUri;
+    }
+
+    public void setsUri(String sUri) {
+        this.sUri = sUri;
+    }
 
     public int getiImgUrl() {
         return iImgUrl;

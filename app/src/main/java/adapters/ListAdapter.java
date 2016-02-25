@@ -1,9 +1,11 @@
 package adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import DTO.DtoUser;
 import com.edibca.databasemanagement.*;
@@ -23,11 +26,11 @@ import com.edibca.databasemanagement.*;
  */
 public class ListAdapter extends BaseAdapter{
     private Context context;
-    private List<DtoUser> data;
+    private ArrayList<DtoUser> data;
     private View view;
     private RelativeLayout relativeLayout;
 
-    public ListAdapter(Context context, List<DtoUser> data) {
+    public ListAdapter(Context context, ArrayList<DtoUser> data) {
         this.context = context;
         this.data = data;
     }
@@ -65,7 +68,8 @@ public class ListAdapter extends BaseAdapter{
             textViewMail.setText(dtoUser.getsMail());
 
             final ImageView imageView=(ImageView)view.findViewById(R.id.img);
-            imageView.setImageBitmap(sizeImage(context.getResources(), dtoUser.getiImgUrl()));
+            imageView.setImageURI(Uri.parse(dtoUser.getsUri()));
+            //imageView.setImageBitmap(sizeImage(context.getResources(), dtoUser.getiImgUrl()));
            /* imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,6 +81,8 @@ public class ListAdapter extends BaseAdapter{
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, "Is  mail :" + textViewMail.getText(), Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(context,UserDetailActivity.class);
+                    context.startActivity(intent);
                 }
             });
         }

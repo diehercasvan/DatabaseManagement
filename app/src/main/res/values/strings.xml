@@ -1,8 +1,21 @@
 <resources>
     <string name="app_name">Database Management</string>
+    <string name="name_detail_user">User Detail</string>
+    <string name="inser_user">User Insert</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="name">Name :</string>
+    <string name="last_name">Last Name:</string>
+    <string name="email">Email :</string>
+    <string name="telephone">Telephone :</string>
+    <string name="selectionImage">Selection  Image :</string>
+    <string name="btnSave">Save User </string>
+    <string name="errorValidateTextBox">All fields are required</string>
+    <string name="errorInsert">Failed to insert user</string>
+    <string name="userInsert">User Insert</string>
+
 </resources>
