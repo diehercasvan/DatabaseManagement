@@ -34,7 +34,6 @@ public class BusinessLogic  extends DataBase {
             db.beginTransaction();
              idUser=daoUserEntity.insertUser(dtoUser);
             db.setTransactionSuccessful();
-
         }
         catch(Exception e)
         {
@@ -65,13 +64,44 @@ public class BusinessLogic  extends DataBase {
 
         return listPerson;
     }
-    public int deleteUserBl(DtoUser dtoUser){
-
-        return 1;
+    public int deleteUserBl(DtoUser dtoUser) throws SQLException {
+        this.db=super.open();
+        int idUser=0;
+        try
+        {
+            daoUserEntity=new DaoUserEntity(db);
+            db.beginTransaction();
+            idUser=daoUserEntity.deleteUser(dtoUser);
+            db.setTransactionSuccessful();
+        }
+        catch(Exception e)
+        {
+            throw  e;
+        }
+        finally {
+            db.endTransaction();
+            super.close();
+        }
+        return idUser;
     }
-    public ArrayList<DtoUser> updateUserBl(DtoUser dtoUser){
 
-        return arrayList;
+    public ArrayList<DtoUser> updateUserBl(DtoUser dtoUser) throws SQLException {
+
+        this.db = super.open();
+        ArrayList<DtoUser> listPerson=null;
+        try {
+            daoUserEntity  = new DaoUserEntity(db);
+            db.beginTransaction();
+            listPerson = daoUserEntity.updateUser(dtoUser);
+            db.setTransactionSuccessful();
+
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            db.endTransaction();
+            super.close();
+        }
+        return listPerson;
     }
 
 }

@@ -7,6 +7,7 @@ public class DtoUser {
     private String sName;
     private String sLast_Name;
     private String sMail;
+    private String sNewMail;
     private String sTelephone;
     private String sPhoto;
     private int iImgUrl;
@@ -26,7 +27,13 @@ public class DtoUser {
 
     }
 
+    public String getsNewMail() {
+        return sNewMail;
+    }
 
+    public void setsNewMail(String sNewMail) {
+        this.sNewMail = sNewMail;
+    }
 
     public int getiID() {
         return iID;

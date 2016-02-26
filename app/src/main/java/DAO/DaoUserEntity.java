@@ -40,34 +40,22 @@ public class DaoUserEntity implements IntUser {
         return (int) database.insert(ShemaDataBase.FeedEntry.TABLE_NAME, null, contentValues);
     }
 
-    @Override
-    public boolean searchUserMail(DtoUser dtoUser) throws SQLException {
-        try {
-
-        } catch (Exception e) {
-            Log.w("Error :", "Is Error insert :" + e.getMessage());
-        }
-
-        return false;
-    }
 
     @Override
     public ArrayList<DtoUser> consultUser(DtoUser dtoUser, int iTypeConsult) throws SQLException {
         ArrayList<DtoUser> PersonList = new ArrayList<>();
-        String sSQL=null;
-        switch (iTypeConsult)
-        {
+        String sSQL = null;
+        switch (iTypeConsult) {
             case 0:
-                sSQL =ShemaDataBase.SELECT_ALL_PERSON;
+                sSQL = ShemaDataBase.SELECT_ALL_PERSON;
                 break;
             case 1:
-                sSQL =ShemaDataBase.SELECT_ALL_PERSON +ShemaDataBase.WHERE+ShemaDataBase.FeedEntry.TABLE_USER[3]+ShemaDataBase.LIKE+" '%"+dtoUser.getsName()+"%' "+ShemaDataBase.OR+ShemaDataBase.FeedEntry.TABLE_USER[2]+ShemaDataBase.LIKE+" '%"+dtoUser.getsName()+"%' ";
+                sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[3] + ShemaDataBase.LIKE + " '%" + dtoUser.getsName() + "%' " + ShemaDataBase.OR + ShemaDataBase.FeedEntry.TABLE_USER[2] + ShemaDataBase.LIKE + " '%" + dtoUser.getsName() + "%' ";
                 break;
         }
-
         Cursor personCursor = database.rawQuery(sSQL, null);
-        if(personCursor.moveToFirst()){
-            do{
+        if (personCursor.moveToFirst()) {
+            do {
                 DtoUser personaBO = new DtoUser(
                         personCursor.getInt(0),
                         personCursor.getString(1),
@@ -76,7 +64,7 @@ public class DaoUserEntity implements IntUser {
                         personCursor.getString(4),
                         personCursor.getString(5));
                 PersonList.add(personaBO);
-            }while(personCursor.moveToNext());
+            } while (personCursor.moveToNext());
         }
         return PersonList;
     }
@@ -84,22 +72,62 @@ public class DaoUserEntity implements IntUser {
     @Override
     public int deleteUser(DtoUser dtoUser) throws SQLException {
 
-        try {
+        return database.delete(ShemaDataBase.FeedEntry.TABLE_NAME, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null);
 
-        } catch (Exception e) {
-            Log.w("Error :", "Is Error insert :" + e.getMessage());
-        }
-        return 0;
     }
 
     @Override
     public ArrayList<DtoUser> updateUser(DtoUser dtoUser) throws SQLException {
-        try {
 
-        } catch (Exception e) {
-            Log.w("Error :", "Is Error insert :" + e.getMessage());
+        ArrayList<DtoUser> PersonList = new ArrayList<>();
+        if (!searchUserMail(dtoUser)) {
+            contentValues = new ContentValues();
+            if (dtoUser.getsName() == null) {
+                Log.w("Error", " es error name");
+            } else {
+                contentValues.put(ShemaDataBase.USER_NAME, dtoUser.getsName());
+            }
+            if (dtoUser.getsLast_Name() == null) {
+                Log.w("Error", " es error surname");
+            } else {
+                contentValues.put(ShemaDataBase.USER_SURNAME, dtoUser.getsLast_Name());
+            }
+            if (dtoUser.getsNewMail() == null) {
+                Log.w("Error", " es error mail");
+            } else {
+                contentValues.put(ShemaDataBase.USER_EMAIL, dtoUser.getsNewMail());
+            }
+            if (dtoUser.getsPhoto() == null) {
+                Log.w("Error", " es error telephone");
+            } else {
+                contentValues.put(ShemaDataBase.USER_TELEPHONE, dtoUser.getsTelephone());
+            }
+            if (dtoUser.getsUri() == null) {
+                Log.w("Error", " es error uri");
+            } else {
+                contentValues.put(ShemaDataBase.USER_URI_IMG, dtoUser.getsUri());
+            }
+            if (database.update(ShemaDataBase.FeedEntry.TABLE_NAME, contentValues, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null) == 1) {
+                PersonList = consultUser(dtoUser, 0);
+            } else {
+                Log.w("Error", " es error update");
+            }
+        } else {
+            Log.w("Error", "It already exists");
         }
+        return PersonList;
+    }
 
-        return null;
+    @Override
+    public boolean searchUserMail(DtoUser dtoUser) throws SQLException {
+        boolean bValidate = false;
+        String sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsNewMail() + "'";
+        Cursor personCursor = database.rawQuery(sSQL, null);
+        if (personCursor.moveToFirst()) {
+            do {
+                bValidate = true;
+            } while (personCursor.moveToNext());
+        }
+        return bValidate;
     }
 }

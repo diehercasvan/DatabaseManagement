@@ -96,10 +96,24 @@ public class MainActivity extends AppCompatActivity
         dataList=businessLogic.consultUserBl(dtoUser,iTypeSearch);
 
         for(int i=0;i<dataList.size();i++){
+            Log.w("List", String.valueOf(dataList.get(i).getsName()));
+            Log.w("List", String.valueOf(dataList.get(i).getsLast_Name()));
+            Log.w("List", String.valueOf(dataList.get(i).getsMail()));
+            Log.w("List", String.valueOf(dataList.get(i).getsTelephone()));
             Log.w("List", String.valueOf(dataList.get(i).getsUri()));
         }
+        /*dtoUser.setsNewMail("diehercasvan@hotmail.com");
+        dtoUser.setsName("Diego Hernando");
+        dtoUser.setsLast_Name("Vanegas");
+        dtoUser.setsMail("diehercasvan@gmail.com");//Validate
 
+       businessLogic.updateUserBl(dtoUser);*/
 
+/*02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: diego
+02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: casallas
+02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: diehercasvan@gmail.com
+02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: 3012528242
+02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: content://com.android.providers.media.documents/document/image%3A6681*/
 
 
     }
