@@ -2,6 +2,7 @@
     <string name="app_name">Database Management</string>
     <string name="name_detail_user">User Detail</string>
     <string name="inser_user">User Insert</string>
+    <string name="inser_update">User Update</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,5 +18,7 @@
     <string name="errorValidateTextBox">All fields are required</string>
     <string name="errorInsert">Failed to insert user</string>
     <string name="userInsert">User Insert</string>
+    <string name="userUpdate">User Update</string>
+    <string name="errorUpdate">Failed to Update User </string>
 
 </resources>

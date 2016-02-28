@@ -52,6 +52,12 @@ public class DaoUserEntity implements IntUser {
             case 1:
                 sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[3] + ShemaDataBase.LIKE + " '%" + dtoUser.getsName() + "%' " + ShemaDataBase.OR + ShemaDataBase.FeedEntry.TABLE_USER[2] + ShemaDataBase.LIKE + " '%" + dtoUser.getsName() + "%' ";
                 break;
+            case 2:
+                sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'";
+                break;
+            case 3:
+                sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsNewMail() + "'";
+                break;
         }
         Cursor personCursor = database.rawQuery(sSQL, null);
         if (personCursor.moveToFirst()) {
@@ -72,7 +78,7 @@ public class DaoUserEntity implements IntUser {
     @Override
     public int deleteUser(DtoUser dtoUser) throws SQLException {
 
-        return database.delete(ShemaDataBase.FeedEntry.TABLE_NAME, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null);
+        return (int) database.delete(ShemaDataBase.FeedEntry.TABLE_NAME, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null);
 
     }
 
@@ -80,52 +86,51 @@ public class DaoUserEntity implements IntUser {
     public ArrayList<DtoUser> updateUser(DtoUser dtoUser) throws SQLException {
 
         ArrayList<DtoUser> PersonList = new ArrayList<>();
-        if (!searchUserMail(dtoUser)) {
-            contentValues = new ContentValues();
-            if (dtoUser.getsName() == null) {
-                Log.w("Error", " es error name");
-            } else {
-                contentValues.put(ShemaDataBase.USER_NAME, dtoUser.getsName());
-            }
-            if (dtoUser.getsLast_Name() == null) {
-                Log.w("Error", " es error surname");
-            } else {
-                contentValues.put(ShemaDataBase.USER_SURNAME, dtoUser.getsLast_Name());
-            }
-            if (dtoUser.getsNewMail() == null) {
-                Log.w("Error", " es error mail");
-            } else {
-                contentValues.put(ShemaDataBase.USER_EMAIL, dtoUser.getsNewMail());
-            }
-            if (dtoUser.getsPhoto() == null) {
-                Log.w("Error", " es error telephone");
-            } else {
-                contentValues.put(ShemaDataBase.USER_TELEPHONE, dtoUser.getsTelephone());
-            }
-            if (dtoUser.getsUri() == null) {
-                Log.w("Error", " es error uri");
-            } else {
-                contentValues.put(ShemaDataBase.USER_URI_IMG, dtoUser.getsUri());
-            }
-            if (database.update(ShemaDataBase.FeedEntry.TABLE_NAME, contentValues, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null) == 1) {
-                PersonList = consultUser(dtoUser, 0);
-            } else {
-                Log.w("Error", " es error update");
-            }
+
+        contentValues = new ContentValues();
+        if (dtoUser.getsName() == null) {
+            Log.w("Error", " es error name");
         } else {
-            Log.w("Error", "It already exists");
+            contentValues.put(ShemaDataBase.USER_NAME, dtoUser.getsName());
         }
+        if (dtoUser.getsLast_Name() == null) {
+            Log.w("Error", " es error surname");
+        } else {
+            contentValues.put(ShemaDataBase.USER_SURNAME, dtoUser.getsLast_Name());
+        }
+        if (dtoUser.getsNewMail() == null) {
+            Log.w("Error", " es error mail");
+
+        } else {
+            contentValues.put(ShemaDataBase.USER_EMAIL, dtoUser.getsNewMail());
+        }
+        if (dtoUser.getsPhoto() == null) {
+            Log.w("Error", " es error telephone");
+        } else {
+            contentValues.put(ShemaDataBase.USER_TELEPHONE, dtoUser.getsTelephone());
+        }
+        if (dtoUser.getsUri() == null) {
+            Log.w("Error", " es error uri");
+        } else {
+            contentValues.put(ShemaDataBase.USER_URI_IMG, dtoUser.getsUri());
+        }
+        if (database.update(ShemaDataBase.FeedEntry.TABLE_NAME, contentValues, ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsMail() + "'", null) == 1) {
+            PersonList = consultUser(dtoUser, 3);
+        } else {
+            Log.w("Error", " es error update");
+        }
+
         return PersonList;
     }
 
     @Override
     public boolean searchUserMail(DtoUser dtoUser) throws SQLException {
-        boolean bValidate = false;
+        boolean bValidate = true;
         String sSQL = ShemaDataBase.SELECT_ALL_PERSON + ShemaDataBase.WHERE + ShemaDataBase.FeedEntry.TABLE_USER[4] + "=" + "'" + dtoUser.getsNewMail() + "'";
         Cursor personCursor = database.rawQuery(sSQL, null);
         if (personCursor.moveToFirst()) {
             do {
-                bValidate = true;
+                bValidate = false;
             } while (personCursor.moveToNext());
         }
         return bValidate;

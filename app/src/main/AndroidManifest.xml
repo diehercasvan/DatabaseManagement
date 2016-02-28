@@ -43,6 +43,18 @@
             >
 
         </activity>
+        <activity
+            android:name=".UserUpdate"
+            android:label="@string/inser_update"
+            android:parentActivityName=".UserDetailActivity"
+            android:uiOptions="splitActionBarWhenNarrow">
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserDetailActivity" />
+            >
+
+        </activity>
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />
 </manifest>

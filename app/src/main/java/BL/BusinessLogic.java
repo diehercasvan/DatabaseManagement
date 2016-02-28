@@ -103,5 +103,23 @@ public class BusinessLogic  extends DataBase {
         }
         return listPerson;
     }
+    public boolean searchUserMail(DtoUser dtoUser) throws SQLException {
+
+        this.db = super.open();
+        boolean listPerson=false;
+        try {
+            daoUserEntity  = new DaoUserEntity(db);
+            db.beginTransaction();
+            listPerson = daoUserEntity.searchUserMail(dtoUser);
+            db.setTransactionSuccessful();
+
+        } catch (Exception e) {
+            throw e;
+        }finally{
+            db.endTransaction();
+            super.close();
+        }
+        return listPerson;
+    }
 
 }

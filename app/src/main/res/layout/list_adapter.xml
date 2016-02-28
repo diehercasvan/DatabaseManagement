@@ -19,13 +19,13 @@
                 android:id="@+id/img"
                 android:layout_width="@dimen/template_img"
                 android:layout_height="@dimen/template_img"
-                android:background="#FFFFFF"/>
+                android:background="#FFFFFF"
+                android:src="@mipmap/ic_launcher"/>
             <ImageView
                 android:id="@+id/mask"
                 android:layout_width="@dimen/template_img"
                 android:layout_height="@dimen/template_img"
                 android:background="@drawable/template_mask"
-                android:src="@mipmap/ic_launcher"
                 android:layout_centerVertical="true"
         />
             <TextView

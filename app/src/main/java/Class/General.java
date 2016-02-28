@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Created by DIEGO CASALLAS on 25/02/2016.
  */
 public class General {
-
+    public static  String EMAIL_USER="";
     public static final boolean validateEmpty(EditText[] editTexts) {
 
         boolean bValidateData = true;

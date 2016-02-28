@@ -70,52 +70,19 @@ public class MainActivity extends AppCompatActivity
 
     public void  loadActivity() throws SQLException {
 
-        dataList= new ArrayList<>();
 
-      /*  for(int i=0;i<10;i++){
-
-            DtoUser  dtoUser=new DtoUser();
-            dtoUser.setsName("Diego :" + i);
-            dtoUser.setsLast_Name("Casallas :" + i);
-            dtoUser.setsMail("diehercasvan@gmail.com" + i);
-            dtoUser.setiImgUrl(R.mipmap.ic_launcher);
-
-            dataList.add(dtoUser);
-
-        }
-        listView=(ListView)findViewById(R.id.listView);
-        listAdapter =new ListAdapter(this,dataList);
-        listView.setAdapter(listAdapter);*/
         searchUser(0);
 
     }
     public void  searchUser(int iTypeSearch) throws SQLException {
-        dtoUser=new DtoUser();
-        businessLogic=new BusinessLogic(this);
+        dtoUser = new DtoUser();
+        businessLogic = new BusinessLogic(this);
+        dataList = new ArrayList<>();
 
-        dataList=businessLogic.consultUserBl(dtoUser,iTypeSearch);
-
-        for(int i=0;i<dataList.size();i++){
-            Log.w("List", String.valueOf(dataList.get(i).getsName()));
-            Log.w("List", String.valueOf(dataList.get(i).getsLast_Name()));
-            Log.w("List", String.valueOf(dataList.get(i).getsMail()));
-            Log.w("List", String.valueOf(dataList.get(i).getsTelephone()));
-            Log.w("List", String.valueOf(dataList.get(i).getsUri()));
-        }
-        /*dtoUser.setsNewMail("diehercasvan@hotmail.com");
-        dtoUser.setsName("Diego Hernando");
-        dtoUser.setsLast_Name("Vanegas");
-        dtoUser.setsMail("diehercasvan@gmail.com");//Validate
-
-       businessLogic.updateUserBl(dtoUser);*/
-
-/*02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: diego
-02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: casallas
-02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: diehercasvan@gmail.com
-02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: 3012528242
-02-26 13:39:52.378 20687-20687/com.edibca.databasemanagement W/List: content://com.android.providers.media.documents/document/image%3A6681*/
-
-
+        listView = (ListView) findViewById(R.id.listView);
+        dataList = businessLogic.consultUserBl(dtoUser, iTypeSearch);
+        listAdapter = new ListAdapter(this, businessLogic.consultUserBl(dtoUser, iTypeSearch));
+        listView.setAdapter(listAdapter);
     }
 
     @Override
@@ -128,27 +95,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -156,11 +102,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.insert) {
+            Intent intent=new Intent(getApplicationContext(),UserInsert.class);
+            startActivity(intent);
+        } else if (id == R.id.search) {
 
-        } else if (id == R.id.nav_slideshow) {
+        }/* else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
@@ -168,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
